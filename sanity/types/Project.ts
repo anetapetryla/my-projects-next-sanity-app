@@ -1,6 +1,6 @@
 import { PortableTextBlock } from "sanity";
 
-export type ProjectType = {
+export type Project = {
     _id: string;
     name: string;
     slug: string;
