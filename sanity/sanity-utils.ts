@@ -1,39 +1,39 @@
-import { createClient, groq } from "next-sanity";
+import { groq } from "next-sanity";
 import { Project } from "./types/Project";
-import clientConfig from "./config/client-config";
 import { Page } from "./types/Page";
+import { Profile } from "./types/Profile";
+import client from "./config/client-config";
+import { Experience } from "./types/Experience";
 
 export async function getProjects(): Promise<Project[]> {
-    return createClient(clientConfig).fetch(
+    return client.fetch(
         groq`*[_type == "project"]{
-            _id,
-            _createdAt,
+            _id, 
             name,
             "slug": slug.current,
-            "image": image.asset->url,
-            url,
-            content
-        }`
+            tagline,
+            "logo": logo.asset->url,
+          }`
     );
 }
 
 export async function getProject(slug: string): Promise<Project> {
-    return createClient(clientConfig).fetch(
+    return client.fetch(
         groq`*[_type == "project" && slug.current == $slug][0]{
             _id,
             _createdAt,
             name,
             "slug": slug.current,
             "image": image.asset->url,
-            url,
-            content
+            projectUrl,
+            description
         }`,
         { slug }
     );
 }
 
 export async function getPages(): Promise<Page[]> {
-    return createClient(clientConfig).fetch(
+    return client.fetch(
         groq`*[_type == "page"]{
             _id,
             _createdAt,
@@ -44,7 +44,7 @@ export async function getPages(): Promise<Page[]> {
 }
 
 export async function getPage(slug: string): Promise<Page> {
-    return createClient(clientConfig).fetch(
+    return client.fetch(
         groq`*[_type == "page" && slug.current == $slug][0]{
             _id,
             _createdAt,
@@ -55,3 +55,36 @@ export async function getPage(slug: string): Promise<Page> {
         { slug }
     );
 }
+
+export async function getProfiles(): Promise<Profile[]> {
+    return client.fetch(
+        groq`*[_type == "profile"]{
+            _id,
+            fullName,
+            headline,
+            profileImage {alt, "image": asset->url},
+            shortBio,
+            location,
+            fullBio,
+            email,
+            "resumeURL": resumeURL.asset->url,
+            socialLinks,
+            skills
+        }`
+    );
+}
+
+export async function getExperience(): Promise<Experience[]> {
+    return client.fetch(
+      groq`*[_type == "experience"]{
+        _id,
+        name,
+        jobTitle,
+        "logo": logo.asset->url,
+        url,
+        description,
+        startDate,
+        endDate,
+      } | order(startDate desc)`
+    );
+  }

@@ -1,3 +1,5 @@
+import { createClient } from "next-sanity";
+
 const config = {
     projectId: '9yt1o9dp',
     dataset: 'production',
@@ -5,4 +7,5 @@ const config = {
     useCdn: true
 };
 
-export default config;
+const client = createClient(config);
+export default client;

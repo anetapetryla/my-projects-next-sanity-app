@@ -1,45 +1,64 @@
-const project = {
-    name: 'project',
-    title: 'Projects',
-    type: 'document',
-    fields: [
-        {
-            name: 'name',
-            title: 'Name',
-            type: 'string'
+import { BiPackage } from "react-icons/bi";
+import { defineField } from "sanity";
 
-        },
+const project = {
+  name: "project",
+  title: "Project",
+  description: "Project Schema",
+  type: "document",
+  icon: BiPackage,
+  fields: [
+    {
+      name: "name",
+      title: "Name",
+      type: "string",
+      description: "Enter the name of the project",
+    },
+    {
+      name: "tagline",
+      title: "Tagline",
+      type: "string",
+    },
+    {
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      description:
+        "Add a custom slug for the URL or generate one from the name",
+      options: { source: "name" }
+    },
+    {
+      name: "logo",
+      title: "Project Logo",
+      type: "image",
+    },
+    {
+      name: "projectUrl",
+      title: "Project URL",
+      type: "url",
+    },
+    {
+      name: "coverImage",
+      title: "Cover Image",
+      type: "image",
+      description: "Upload a cover image for this project",
+      options: { hotspot: true },
+      fields: [
         {
-            name: 'slug',
-            title: 'Slug',
-            type: 'slug',
-            options: { source: 'name' }
+          name: "alt",
+          title: "Alt",
+          type: "string",
         },
-        {
-            name: 'image',
-            title: 'Image',
-            type: 'image',
-            options: { hotspot: true },
-            fields: [
-                {
-                    name: 'alt',
-                    title: 'Alt',
-                    type: 'string'
-                }
-            ]
-        },
-        {
-            name: 'url',
-            title: 'Url',
-            type: 'url'
-        },
-        {
-             name: 'content',
-             title: 'Content',
-             type: 'array',
-             of: [{ type: "block"}]
-        }
-    ]
+      ],
+    },
+    {
+      name: "description",
+      title: "Description",
+      type: "array",
+      description: "Write a full description about this project",
+      of: [{ type: "block" }],
+    },
+  ],
 };
 
 export default project;
